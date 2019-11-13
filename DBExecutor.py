@@ -1,26 +1,61 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
-import Brand, User, Auto
+from typing import Dict
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+from AutoUser import AutoUser
+from AutoBrand import AutoBrand
+from Brand import Brand
+from Auto import Auto
+from User import User
 
 class DBExecutor:
     def __init__(self):
         self.engine = create_engine('sqlite:///DataBase/CompanyCars.db', echo=True)
         session = sessionmaker(bind=self.engine)
-        self.session = session.configure(bind=self.engine)
-#        self.session = Session()
+        self.session = session()
 
     def push_user(self, user: User):
         self.session.add(user)
         self.session.commit()
-        self.session.close()
 
-    def push_auto(self, auto: Auto):
+    def push_auto(self, auto: Auto, brand_name: str):
         self.session.add(auto)
         self.session.commit()
-        self.session.close()
+        self.create_auto_brand_path({brand_name: [auto.name]})
 
     def push_brand(self, brand: Brand):
         self.session.add(brand)
         self.session.commit()
-        self.session.close()
+
+    def get_user_by_first_name(self, first_name):
+        result = self.session.query(User, AutoUser).join(AutoUser, User.id == AutoUser.user_id).filter(User.first_name == first_name)
+        self.session.commit()
+        for res in result:
+            print(1223)
+            print(res)
+        return result
+
+
+    def get_user_by_last_name(self, last_name):
+        pass
+
+    def create_auto_brand_path(self, brand_map: Dict):
+        for brand in brand_map:
+            current_brand = self.session.query(Brand).filter(Brand.name == brand)
+            current_auto_list = self.session.query(Auto).filter(Auto.name.in_(brand_map[brand]))
+            # self.session.commit()
+
+            current_brand = current_brand[0] if current_brand else None
+
+            auto_id_list = [auto.id for auto in current_auto_list]
+
+            self.session.add_all(
+                [
+                    AutoBrand(
+                        brand_id=current_brand.id,
+                        auto_id=auto_id
+                    ) for auto_id in auto_id_list
+                ]
+            )
+            self.session.commit()
