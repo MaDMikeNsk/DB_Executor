@@ -10,3 +10,7 @@ class Auto(Base):
     id = Column(Integer, autoincrement=True, unique=True, primary_key=True)
     name = Column(TEXT)
     year = Column(Integer)
+
+    def __init__(self, name, year):
+        self.name = name
+        self.year = year

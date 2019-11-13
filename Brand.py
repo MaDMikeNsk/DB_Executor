@@ -3,9 +3,12 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+
 class Brand(Base):
     __tablename__ = 'Brand'
 
     id = Column(Integer, autoincrement=True, unique=True, primary_key=True)
     name = Column(TEXT)
 
+    def __init__(self, name):
+        self.name = name

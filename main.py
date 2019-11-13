@@ -1,18 +1,18 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from Brand import Brand
 from Auto import Auto
+from DBExecutor import DBExecutor
 from User import User
 
-engine = create_engine('sqlite:///C:/Python/PycharmProjects/DB_Executor/DataBase/AutoDB.db', echo=True)
-Session = sessionmaker(bind=engine)
-Session = Session()
+db = DBExecutor()
 
 # Добавим юзера в базу
-user = User(first_name='John', last_name='Smit', birthday_date='01/06/1987')
-Session.add(user)
-Session.commit()
+user = User(first_name='Michael', last_name='Jordan', birthday_date='23/11/1946')
+db.push_user(user)
 
 # Добавим авто в базу
-auto = Auto(name='Lexus', year=2010)
-Session.add(auto)
-Session.commit()
+auto = Auto(name='Camry', year=2015)
+db.push_auto(auto)
+
+# Добавим бренд в базу
+brand = Brand(name='TOYOTA')
+db.push_brand(brand)

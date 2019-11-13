@@ -11,3 +11,8 @@ class User(Base):
     first_name = Column(TEXT)
     last_name = Column(TEXT)
     birthday_date = Column(TEXT)
+
+    def __init__(self, first_name, last_name, birthday_date):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.birthday_date = birthday_date
