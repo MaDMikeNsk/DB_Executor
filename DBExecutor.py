@@ -9,6 +9,7 @@ from Brand import Brand
 from Auto import Auto
 from User import User
 
+
 class DBExecutor:
     def __init__(self):
         self.engine = create_engine('sqlite:///DataBase/CompanyCars.db', echo=True)
@@ -31,20 +32,15 @@ class DBExecutor:
     def get_user_by_first_name(self, first_name):
         result = self.session.query(User, AutoUser).join(AutoUser, User.id == AutoUser.user_id).filter(User.first_name == first_name)
         self.session.commit()
-        for res in result:
-            print(1223)
-            print(res)
         return result
 
-
     def get_user_by_last_name(self, last_name):
-        pass
+        return self.session.query(User).filter(User.last_name == last_name)
 
     def create_auto_brand_path(self, brand_map: Dict):
         for brand in brand_map:
             current_brand = self.session.query(Brand).filter(Brand.name == brand)
             current_auto_list = self.session.query(Auto).filter(Auto.name.in_(brand_map[brand]))
-            # self.session.commit()
 
             current_brand = current_brand[0] if current_brand else None
 

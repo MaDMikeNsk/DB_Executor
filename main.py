@@ -24,11 +24,9 @@ brand_map = {'TOYOTA': ['Land Cruser', 'Camry'], 'LEXUS': 'LS540'}
 #auto = Auto(name='Corolla', year=2004,)
 #db.push_auto(auto, 'TOYOTA')
 
-my_name = db.get_user_by_first_name('Jack')
-for name in my_name:
-    print(name.name, name.id, name.auto_id)
+my_first_name = db.get_user_by_first_name('Jack')
+my_last_name = db.get_user_by_last_name('Jordan')
 
-
-
-
+for name in my_last_name:
+    print(name)
 db.session.close()
