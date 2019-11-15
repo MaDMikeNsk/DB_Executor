@@ -32,10 +32,10 @@ class DBExecutor:
     def get_user_by_first_name(self, first_name):
         result = self.session.query(User, AutoUser).join(AutoUser, User.id == AutoUser.user_id).filter(User.first_name == first_name)
         self.session.commit()
-        return result
+        return result.all()
 
     def get_user_by_last_name(self, last_name):
-        return self.session.query(User).filter(User.last_name == last_name)
+        return self.session.query(User).filter(User.last_name == last_name).all()
 
     def create_auto_brand_path(self, brand_map: Dict):
         for brand in brand_map:
