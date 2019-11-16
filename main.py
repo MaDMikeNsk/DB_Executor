@@ -16,8 +16,8 @@ if my_users:
 else:
     print(f'No users with last name {some_name} found')
 
-#users = db.get_user_by_first_name('Tom')
-#for user in users:
-#    print(user.first_name, user.last_name, user.birthday_date)
-
+users = db.get_user_by_first_name('Michael')
+for user in users:
+    print(user.User.last_name, user.User.birthday_date, user.AutoUser.auto_id)
+print(type(users), len(users))
 db.session.close()

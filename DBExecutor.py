@@ -29,6 +29,9 @@ class DBExecutor:
         self.session.add(brand)
         self.session.commit()
 
+    def push(self, item):
+        pass
+
     def get_user_by_first_name(self, first_name):
         result = self.session.query(User, AutoUser).join(AutoUser, User.id == AutoUser.user_id).filter(User.first_name == first_name)
         self.session.commit()
